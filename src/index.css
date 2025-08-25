@@ -2,41 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* EduSprint Design System - Modern Educational Platform */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Educational color palette - blues and purples for trust and learning */
+    --background: 240 100% 99%;
+    --foreground: 230 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 230 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 230 15% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Deep educational blue */
+    --primary: 213 94% 68%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 213 94% 78%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Soft purple accent */
+    --secondary: 264 89% 78%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted backgrounds */
+    --muted: 240 20% 97%;
+    --muted-foreground: 230 10% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Success green */
+    --accent: 142 76% 56%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 20% 92%;
+    --input: 240 20% 96%;
+    --ring: 213 94% 68%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+
+    /* EduSprint specific tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(213 94% 68%), hsl(264 89% 78%));
+    --gradient-secondary: linear-gradient(135deg, hsl(264 89% 78%), hsl(213 94% 78%));
+    --gradient-success: linear-gradient(135deg, hsl(142 76% 56%), hsl(142 76% 66%));
+    --gradient-bg: linear-gradient(180deg, hsl(240 100% 99%), hsl(240 50% 98%));
+    
+    /* Shadows for cards */
+    --shadow-soft: 0 4px 20px -4px hsl(213 94% 68% / 0.1);
+    --shadow-medium: 0 8px 30px -6px hsl(213 94% 68% / 0.15);
+    --shadow-strong: 0 12px 40px -8px hsl(213 94% 68% / 0.2);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +120,44 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background: var(--gradient-bg);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .card-edu {
+    @apply bg-card border border-border rounded-2xl p-6;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+  }
+  
+  .card-edu:hover {
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-2px);
+  }
+  
+  .btn-primary {
+    background: var(--gradient-primary);
+    @apply text-primary-foreground border-0 rounded-xl px-6 py-3 font-medium;
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-primary:hover {
+    background: var(--gradient-secondary);
+    box-shadow: var(--shadow-medium);
+    transform: translateY(-1px);
+  }
+  
+  .btn-secondary {
+    background: var(--gradient-secondary);
+    @apply text-secondary-foreground border-0 rounded-xl px-6 py-3 font-medium;
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-success {
+    background: var(--gradient-success);
+    @apply text-accent-foreground border-0 rounded-xl px-6 py-3 font-medium;
+    transition: var(--transition-smooth);
   }
 }
