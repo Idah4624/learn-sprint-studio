@@ -1,14 +1,36 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, BookOpen, Brain, FileQuestion, LayoutDashboard } from "lucide-react";
+import { Home, BookOpen, Brain, FileQuestion, LayoutDashboard, LogOut, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 const Navigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
   
   const navItems = [
     { path: "/", icon: Home, label: "Home" },
-    { path: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    ...(user ? [{ path: "/dashboard", icon: LayoutDashboard, label: "Dashboard" }] : []),
   ];
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Signed out",
+        description: "You've been signed out successfully.",
+      });
+      navigate('/');
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -45,9 +67,29 @@ const Navigation = () => {
             })}
           </div>
 
-          <Button className="btn-primary">
-            Sign In
-          </Button>
+          {user ? (
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-2 text-sm">
+                <User className="h-4 w-4" />
+                <span className="hidden md:inline">
+                  {user.user_metadata?.username || user.email}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSignOut}
+                className="flex items-center space-x-1"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden md:inline">Sign Out</span>
+              </Button>
+            </div>
+          ) : (
+            <Button onClick={() => navigate('/auth')}>
+              Sign In
+            </Button>
+          )}
         </div>
       </div>
     </nav>
